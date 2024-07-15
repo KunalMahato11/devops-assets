@@ -1,0 +1,46 @@
+parameters:
+  - name: Build_Agent_Pool
+    displayName: Agent Pool
+    type: string
+    default: <Hosted-Agent-Pool-Name-1>
+    values:
+      - <Hosted-Agent-Pool-Name-1>
+      - <Hosted-Agent-Pool-Name-2>
+      - <Hosted-Agent-Pool-Name-3>
+
+trigger: none
+
+name: "<Pipeline-Run-Name-BuildNumber>"
+
+
+
+variables:   # Pipeline-level variables
+  - template: './Variables/build-pipeline-variables.yaml'
+  - group: "<variable-library-name>"
+
+stages:
+
+  - stage: Dev
+    displayName: DEV
+    dependsOn: []
+    variables:
+      - template: './Variables/dev-variables.yaml'    # Stage-level variables
+    jobs:
+      - template: './Jobs/build-job.yaml'
+        parameters:
+          poolName: "${{ parameters.Build_Agent_Pool }}"
+          environment: "dev"
+          appName: "app"
+  
+  - stage: Qa
+    displayName: QA
+    dependsOn: Dev
+    variables:
+      - template: './Variables/qa-variables.yaml'    # Stage-level variables
+    jobs:
+      - template: './Jobs/build-job.yaml'
+        parameters:
+          poolName: "${{ parameters.Build_Agent_Pool }}"
+          environment: "qa"
+          appName: "app"
+

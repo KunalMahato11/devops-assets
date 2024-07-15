@@ -1,0 +1,26 @@
+parameters:
+  geo: ""
+
+steps:
+
+  - checkout: self
+    persistCredentials: true
+    clean: true
+
+  
+  - pwsh: |
+      ls env:
+    displayName: "Display Environment Variables"
+
+  
+  - ${{ if eq(parameters.geo, 'eus')}}:
+    - pwsh: |
+        Write-Host "Geo: East US"
+      displayName: "Print Geo"
+  
+  
+  - ${{ if and(eq(parameters.geo, 'test'), eq(1, 2)) }}:
+    - pwsh: |
+        Write-Host "Hello"
+      displayName: "Print Hello"
+  

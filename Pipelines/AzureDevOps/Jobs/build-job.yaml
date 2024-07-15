@@ -1,0 +1,22 @@
+parameters:
+  appName: ""
+  poolName: ""
+  environment: ""
+
+jobs:
+  - job: ${{ parameters.appName  }}_${{ parameters.environment }}_build
+    displayName: "${{ parameters.appName  }}_${{ parameters.environment }} Build"
+    pool:
+      name: ${{ parameters.poolName }}
+    continueOnError: false
+    timeoutInMinutes: 0
+    cancelTimeoutinMinutes: 1
+    workspace:
+      clean: true
+    variables:
+      - template: "../Variables/${{ parameters.environment }}-job-variables.yaml"
+    
+    steps:
+    - template: "./Steps/build-steps.yaml"
+      parameters:
+        geo: "eus"
