@@ -8,17 +8,18 @@ parameters:
       - <Hosted-Agent-Pool-Name-2>
       - <Hosted-Agent-Pool-Name-3>
 
+
 trigger: none
-
 name: "<Pipeline-Run-Name-BuildNumber>"
-
 
 
 variables:   # Pipeline-level variables
   - template: './Variables/build-pipeline-variables.yaml'
   - group: "<variable-library-name>"
 
+
 stages:
+
 
   - stage: Dev
     displayName: DEV
@@ -32,6 +33,7 @@ stages:
           environment: "dev"
           appName: "app"
   
+
   - stage: Qa
     displayName: QA
     dependsOn: Dev
